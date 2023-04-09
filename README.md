@@ -1,6 +1,8 @@
 # Hotel-Revenue-Analysis
+---
 # Project Overview: 
 The hotel revenue dashboard is designed to provide a comprehensive view of the hotel's revenue performance for Luxury and Business Hotel category. The dashboard will be built using Power BI.
+...
 # AIM:
 To know reasons for Losing market share and Revenue in Luxury & Business hotel category.
 # Insights:
