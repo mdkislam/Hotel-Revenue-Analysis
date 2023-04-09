@@ -55,5 +55,84 @@ The layout of the dashboard will be designed to be easy to navigate and visually
    **Realization** = 8500/10000 = 85% 
 ---
 # calculated measures:
-1. **NetRevenue** = `SUM(FactBooking[revenue_realized])`
-2. 
+1. ADR = DIVIDE([TotalRevenue],[BookedRooms],0)
+2. ADR WoW change % = 
+    Var selv = IF(HASONEFILTER(DimDate[WeekNum]),SELECTEDVALUE(DimDate[WeekNum]),MAX(DimDate[WeekNum]))
+    var revcw = CALCULATE([ADR],DimDate[WeekNum]= selv)
+    var revpw =  CALCULATE([ADR],FILTER(ALL(DimDate),DimDate[WeekNum]= selv-1))
+
+    return
+    DIVIDE(revcw,revpw,0)-1
+3. ADR_Weekday = DIVIDE([WeekdayRevenue],[WeekdayCount])
+4. ADR_Weekend = DIVIDE([WeekendRevenue],[WeekendCount],0)
+5. Average Rating = CALCULATE(AVERAGE(FactBooking[ratings_given]))
+6. BookedRooms = sum(FactAggregatedBooking[successful_bookings])
+7. booking % By room_class = DIVIDE(
+    [TotalBooking],
+        CALCULATE(
+            [TotalBooking],
+                ALL(DimRooms[room_class]
+        )
+    ))
+8. booking % ByChannel = DIVIDE(
+    [TotalBooking],
+    CALCULATE([TotalBooking],
+        ALL(FactBooking[booking_platform])
+    ))
+9. Cancellation % = DIVIDE([CancellationCount],[CustomerCount],0)
+10. CancellationCount = COUNTROWS(FILTER(FactBooking,[booking_status]="Cancelled"))
+11. CheckedOutCount = COUNTAX(FILTER(FactBooking,[booking_status]="Checked Out"),[booking_status])
+12. CustomerCount = COUNTAX(FactBooking,FactBooking[booking_id])
+13. DBRN = DIVIDE([BookedRooms],[TotalDays],0)
+14. DSRN = SUM(FactAggregatedBooking[capacity]) / [TotalDays]
+15. DSRN WoW change % = 
+    Var selv = IF(HASONEFILTER(DimDate[WeekNum]),SELECTEDVALUE(DimDate[WeekNum]),MAX(DimDate[WeekNum]))
+    var revcw = CALCULATE([DSRN],DimDate[WeekNum]= selv)
+    var revpw =  CALCULATE([DSRN],FILTER(ALL(DimDate),DimDate[WeekNum]= selv-1))
+
+    return
+    DIVIDE(revcw,revpw,0)-1
+16. DURN = DIVIDE([CheckedOutCount],[TotalDays])
+17. No Show Count = COUNTROWS(FILTER(FactBooking,[booking_status]="No Show"))
+18. NoShow % = DIVIDE([No Show Count],[TotalBooking])
+19. Occupancy % = SUM(FactAggregatedBooking[successful_bookings])/SUM(FactAggregatedBooking[capacity])
+20. Occupancy WoW change % = 
+    Var selv = IF(HASONEFILTER(DimDate[WeekNum]),SELECTEDVALUE(DimDate[WeekNum]),MAX(DimDate[WeekNum]))
+    var revcw = CALCULATE([Occupancy %],DimDate[WeekNum]= selv)
+    var revpw =  CALCULATE([Occupancy %],FILTER(ALL(DimDate),DimDate[WeekNum]= selv-1))
+
+    return
+    DIVIDE(revcw,revpw,0)-1
+21. Property Counts = COUNTAX(DimHotel,[property_id])
+22. realisation % = 1-([Cancellation %] + [NoShow %])
+23. Realisation WoW change % = 
+    Var selv = IF(HASONEFILTER(DimDate[WeekNum]),SELECTEDVALUE(DimDate[WeekNum]),MAX(DimDate[WeekNum]))
+    var revcw = CALCULATE([Realisation %],DimDate[WeekNum]= selv)
+    var revpw =  CALCULATE([Realisation %],FILTER(ALL(DimDate),DimDate[WeekNum]= selv-1))
+
+    return
+    DIVIDE(revcw,revpw,0)-1
+24. RevenueWoW_Change % = 
+    var selv = IF(HASONEFILTER(DimDate[WeekNum]),SELECTEDVALUE(DimDate[WeekNum]),MAX(DimDate[WeekNum]))
+    var revcw = CALCULATE([TotalRevenue],DimDate[WeekNum]=selv)
+    var revpw =  CALCULATE([TotalRevenue],FILTER(ALL(DimDate),DimDate[WeekNum]=selv - 1))
+
+    return
+    DIVIDE(revcw,revpw,0) - 1   
+25. RevPar = [ADR] * [Occupancy %]
+26. Revpar WoW change % = 
+    Var selv = IF(HASONEFILTER(DimDate[WeekNum]),SELECTEDVALUE(DimDate[WeekNum]),MAX(DimDate[WeekNum]))
+    var revcw = CALCULATE([RevPAR],DimDate[WeekNum]= selv)
+    var revpw =  CALCULATE([RevPAR],FILTER(ALL(DimDate),DimDate[WeekNum]= selv-1))
+
+    return
+    DIVIDE(revcw,revpw,0)-1
+27. TotalBooking = COUNTAX(FactBooking,[booking_id])
+28. TotalDays = [WeekdayCount]+[WeekendCount]
+29. TotalDays2 = DATEDIFF(MIN(DimDate[date]),MAX(DimDate[date]),DAY) +1    
+30. TotalRevenue = SUM(FactBooking[revenue_realized])
+31. TotalRooms = SUM(FactAggregatedBooking[capacity])
+32. WeekdayCount = COUNTAx(FILTER(DimDate,[DayType]="weekday"),[DayType])
+33. WeekdayRevenue = CALCULATE(SUM(FactBooking[revenue_realized]),DimDate[DayType]="weekday")
+34. WeekendCount = COUNTAX(FILTER(DimDate,[DayType]="weekend"),[DayType]="weekend")
+35. WeekendRevenue = CALCULATE(SUM(FactBooking[revenue_realized]),DimDate[DayType]="weekend")
