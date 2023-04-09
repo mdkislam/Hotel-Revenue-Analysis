@@ -54,6 +54,11 @@ The layout of the dashboard will be designed to be easy to navigate and visually
    *potential revenue* = 100(rooms) * 100(ADR)
    **Realization** = 8500/10000 = 85% 
 ---
+# Calculated Fields:
+1. DayType = IF(OR(WEEKDAY(DimDate[date],1)=6,WEEKDAY(DimDate[date],1)=7),"weekend","weekday")
+2. WeekNum = WEEKNUM(DimDate[date])
+3. Months_Year = FORMAT(DimDate[date],"MMM/yy")
+---
 # calculated measures:
 1. ADR = DIVIDE([TotalRevenue],[BookedRooms],0)
 2. ADR WoW change % = 
