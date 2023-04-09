@@ -53,3 +53,7 @@ The layout of the dashboard will be designed to be easy to navigate and visually
    *ADR* = 8500/85 = 100
    *potential revenue* = 100(rooms) * 100(ADR)
    **Realization** = 8500/10000 = 85% 
+---
+# calculated measures:
+1. **NetRevenue** = `SUM(FactBooking[revenue_realized])`
+2. 
