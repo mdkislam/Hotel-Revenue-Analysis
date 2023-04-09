@@ -43,6 +43,14 @@ The layout of the dashboard will be designed to be easy to navigate and visually
    *Realization = Actual Revenue / Total Available Revenue*
    For example, let's say a hotel has total available revenue of $100,000 for a given period, but only collects $80,000 of that revenue. The realization for that period would be: 
    Realization = $80,000 / $100,000 = 0.8 or 80%
+7. **DBRN** - Daily booked room per night
+8. **DURN** -  Daily utilized room per night
+9. **Revenue WoW change %** : To get the revenue change percentage week over week.
+10. **Occupancy WoW change %** - To get the occupancy change percentage week over week.
+11. **ADR WoW change %** - To get the ADR(Average Daily rate) change percentage week over week.
+12. **Revpar WoW change %** - To get the RevPar(Revenue Per Available Room) change percentage week over week.
+13. **Realisation WoW change %** - To get the Realisation change percentage week over week.
+14. **DSRN WoW change %** - To get the DSRN(Daily Sellable Room Nights) change percentage week over week.
    
    ### Q. If I have a total of 100 bookings, but 10 were cancelled and 5 were no-shows, how do I calculate the realization?
    **Realization = Actual Revenue / Potential Revenue**
